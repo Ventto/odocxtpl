@@ -1,0 +1,6 @@
+/*
+!src/
+src/*
+!src/odocxtpl.py
+!README.md
+!.gitignore
