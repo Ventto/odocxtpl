@@ -7,12 +7,11 @@ ODocxTpl
 *ODocxTpl is a simple tool to generate a word document from .docx template and
 YAML variables (using py-docx-tpl).*
 
-**Warning: This tool is experimental.**
-
 Requirements
 ------------
 
 * *python3.5*
+* *python-argparse*
 * *python-pip* - The PyPA recommended tool for installing Python packages
 * *python-yaml* - Python bindings for YAML, using fast libYAML library
 
@@ -35,7 +34,7 @@ Usage
 -----
 
 ```
-$ ./odocxtpl.py file1.docx meta.yaml out.docx
+$ python odocxtpl.py file1.docx meta.yaml out.docx
 ```
 
 * **file1.docx**: Word document containing context {{ vars }}
