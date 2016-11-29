@@ -1,6 +1,7 @@
 /*
-!src/
-src/*
-!src/odocxtpl.py
+!odocxtpl/
+odocxtpl/*
+!odocxtpl/odocxtpl.py
+!LICENSE
 !README.md
 !.gitignore
