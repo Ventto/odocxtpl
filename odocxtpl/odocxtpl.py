@@ -1,40 +1,64 @@
 #!/usr/bin/env python
-
-import os.path
+#
+# MIT License
+#
+# Copyright (c) 2016 Thomas "Ventto" Venriès
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+import argparse
+import docxtpl
 import io
+import os
 import sys
 import yaml
-from docxtpl import DocxTemplate
 
-def get_status(filepath):
-    if not os.path.exists(filepath):
-        print('Error: File not found.\n')
-        sys.exit(1)
-        return filepath
+def __getopt():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('DOCX', help="Input .DOCX file")
+    parser.add_argument('YAML', help="Input .YAML file")
+    parser.add_argument('OUTPUT', help="OUTPUT .docx file")
+    return parser.parse_args()
 
 def main(argv):
-    argc = len(argv) - 1
-    if argc < 3 or argc > 3:
-        print('Usage: docxtemplate [FILE] [YAML] [OUTPUT] \n')
-        sys.exit(0)
 
-    for i in range(1, argc):
-        if not os.path.exists(argv[i]):
-            print(argv[i], ': file not found.\n', file=sys.stderr)
+    args = __getopt()
+
+    if not os.path.exists(args.docx):
+            print(args.docx, ': file not found.\n', file=sys.stderr)
+            sys.exit(1)
+    if not os.path.exists(args.yaml):
+            print(args.yaml, ': file not found.\n', file=sys.stderr)
             sys.exit(1)
 
-    with io.open(argv[2], 'r') as stream:
+    with io.open(args.yaml, 'r') as stream:
         try:
             context = yaml.load(stream)
             if type(context) is not dict:
                 print('Error: YAML loaded data are not a dictionary.')
                 sys.exit(1)
-            doc = DocxTemplate(argv[1])
+            doc = docxtpl.DocxTemplate(args.docx)
             doc.render(context)
-            doc.save(argv[3])
+            doc.save(args.output)
         except yaml.YAMLError as exc:
             print('Error: YAML loaded data are not a dictionary.')
             print(exc)
+
 
 if __name__ == "__main__":
     main(sys.argv)
