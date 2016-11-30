@@ -39,22 +39,22 @@ def main(argv):
 
     args = __getopt()
 
-    if not os.path.exists(args.docx):
-            print(args.docx, ': file not found.\n', file=sys.stderr)
+    if not os.path.exists(args.DOCX):
+            print(args.DOCX, ': file not found.\n', file=sys.stderr)
             sys.exit(1)
-    if not os.path.exists(args.yaml):
-            print(args.yaml, ': file not found.\n', file=sys.stderr)
+    if not os.path.exists(args.YAML):
+            print(args.YAML, ': file not found.\n', file=sys.stderr)
             sys.exit(1)
 
-    with io.open(args.yaml, 'r') as stream:
+    with io.open(args.YAML, 'r') as stream:
         try:
             context = yaml.load(stream)
             if type(context) is not dict:
                 print('Error: YAML loaded data are not a dictionary.')
                 sys.exit(1)
-            doc = docxtpl.DocxTemplate(args.docx)
+            doc = docxtpl.DocxTemplate(args.DOCX)
             doc.render(context)
-            doc.save(args.output)
+            doc.save(args.OUTPUT)
         except yaml.YAMLError as exc:
             print('Error: YAML loaded data are not a dictionary.')
             print(exc)
